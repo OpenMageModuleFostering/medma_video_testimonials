@@ -1,0 +1,10 @@
+<layout version="0.1.0">
+
+<catalog_product_view translate="label">
+<reference name="product.info">
+
+	<action method='setTemplate'><template>videotestimonials/catalog/product/view.phtml</template></action>
+	<block type="catalog/product_view" name="videotestimonial" as="videotestimonial" template="videotestimonials/catalog/product/view/videoslider.phtml"/>
+</reference>
+</catalog_product_view>
+</layout>

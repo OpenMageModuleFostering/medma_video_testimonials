@@ -1,0 +1,70 @@
+<?php 
+	
+	 $categoryArrs = $this->_categotyFilter();
+
+?>
+<div style="" id="admintestimonials_tabs_form_section_content"><div class="entry-edit">
+    <div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend">Item information</h4>
+    <div class="form-buttons"></div>
+</div>
+    <div id="admintestimonials_form" class="fieldset ">
+    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list">
+           <tbody>
+                <tr>
+        <td class="label"><label for="category_id">Category <span class="required">*</span></label></td>
+    <td class="value">
+		<?php $category_id = Mage::getSingleton('adminhtml/session')->getCategoryId(); ?>
+		<?php $arrCats = Mage::getModel('admintestimonials/category')->toOptionArray(); ?>
+		    <select class=" required-entry select" name="category_id" id="category_id">
+				<?php foreach($arrCats as $value=>$lable) : ?>
+					<option value="<?php echo $value ?>" <?php if($category_id == $value):?> selected <?php endif;?>><?php echo $lable ?></option>
+				<?php endforeach;?>
+			</select>            
+		</td>
+    </tr>
+<tr>
+        <td class="label"></td>
+    <td class="value">
+        <span id="addmore"><button style="" onclick="addNewDiv();" class="scalable " type="button" id="id_712e4e6b7ae4603fe34426332f28c9e2"><span>Add More Video </span></button></span>            </td>
+    </tr>
+<tr>
+        
+    </tr>
+	<?php $videoCount = 0; ?>
+	<?php foreach($categoryArrs as $categoryArr): $videoCount++;?>
+<tr>
+        <td class="label"><label for="video_url">Youtube Video Url <span class="required">*</span></label></td>
+    <td class="value">
+        <input type="text" class="required-entry input-text required-entry" value="<?php echo $categoryArr['video_url']?>" name="video_url_<?php echo $videoCount?>" id="video_url_<?php echo $videoCount?>">            </td>
+    </tr>
+<tr>
+
+        <td class="label"><label for="position">Position <span class="required">*</span></label></td>
+    <td class="value">
+        <input type="text" class=" input-text required-entry" value="<?php echo $categoryArr['position']?>" name="position_<?php echo $videoCount?>" id="position_<?php echo $videoCount?>">            </td>
+    </tr>
+<tr>
+        <td class="label"><label for="status">Status</label></td>
+    <td class="value">
+        <select class=" select" name="status_<?php echo $videoCount?>" id="status_<?php echo $videoCount?>">
+			<option value="1" <?php if( $categoryArr['status'] == 1): ?> selected <?php endif;?>>Enabled</option>
+			<option value="2" <?php if( $categoryArr['status'] == 2): ?> selected <?php endif;?>>Disabled</option>
+</select>            </td>
+    </tr>
+	<tr>
+		<td colspan="2">
+
+			<input type="hidden" value="<?php echo $categoryArr['admintestimonials_id'];?>" name="video_row_id_<?php echo $videoCount ?>" id="video_row_id_<?php echo $videoCount ?>">
+
+		</td>
+	</tr>
+<?php endforeach; ?>
+            </tbody>
+        </table>
+		<input type="hidden" value="<?php echo $videoCount; ?>" name="video_link_length" id="video_link_length">
+            </div>
+        </div>
+</div>
+</div>

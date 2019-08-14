@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Medma_Admintestimonials>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Medma_Admintestimonials>
+    </modules>
+</config> 

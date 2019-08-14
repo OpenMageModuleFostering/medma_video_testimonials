@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <admintestimonials_adminhtml_admintestimonials_index>
+        <reference name="content">
+            <block type="admintestimonials/adminhtml_admintestimonials" name="admintestimonials" />
+        </reference>
+    </admintestimonials_adminhtml_admintestimonials_index>
+    <admintestimonials_adminhtml_customertestimonials_index>
+        <reference name="content">
+            <block type="admintestimonials/adminhtml_customertestimonials" name="customertestimonials" />
+        </reference>
+    </admintestimonials_adminhtml_customertestimonials_index>
+</layout>

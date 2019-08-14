@@ -1,0 +1,265 @@
+<?php 
+
+/* */
+?>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/skin.css') ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/colorbox.css') ?>" />
+<script type="text/javascript">
+
+function mycarousel_initCallback(carousel)
+{
+    // Disable autoscrolling if the user clicks the prev or next button.
+    carousel.buttonNext.bind('click', function() {
+        carousel.startAuto(0);
+    });
+
+    carousel.buttonPrev.bind('click', function() {
+        carousel.startAuto(0);
+    });
+
+    // Pause autoscrolling if the user moves with the cursor over the clip.
+    carousel.clip.hover(function() {
+        carousel.stopAuto();
+    }, function() {
+        carousel.startAuto();
+    });
+};
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+        //auto: 2,
+		visible: 4,
+        wrap: 'last',
+        initCallback: mycarousel_initCallback
+    });
+});
+
+</script>
+<script src="<?php echo $this->getSkinUrl('js/jquery.colorbox.js') ?>" type="text/javascript"></script>
+<script type="text/javascript">
+var $j=jQuery.noConflict();
+	$j(document).ready(function(){        
+		$j(".youtube").colorbox({iframe:true, innerWidth:425, innerHeight:344});
+
+		$j(".vidtest-player").hide();
+		$j(".show_hide").show();
+
+		$j('.show_hide').click(function(){
+			$j(".vidtest-player").slideToggle();
+		});
+	});
+</script>	
+<?php
+$_product = $this->getProduct();
+$_CategoryIds = $_product->getCategoryIds();
+$_CategoryId = $_CategoryIds[0];
+$videoCollection = Mage::getModel('admintestimonials/admintestimonials')->getCollection()->addFieldToFilter('category_id',array('eq' => $_CategoryId))->addFieldToFilter('status',array('eq' => '1'));
+
+$customerVideoCollection = Mage::getModel('admintestimonials/customertestimonials')->getCollection()->addFieldToFilter('product_id',array('eq' => $_product->getId()))->addFieldToFilter('status',array('eq' => '1'));
+
+$videoCollection->getSelect()->order('position ASC');
+?>
+<div id="for_1400" class="vidtest-collateral-box">
+	<h2><?php echo $this->__('Video Testimonials &amp; Reviews')?></h2>
+	<div id="for_1400" class="add-own-video-button">
+		<a href="javascript:void(0)" class="show_hide"><?php echo $this->__('Upload Video')?></a>
+	</div>
+	<div class="vidtest-player" id="vidtest-player">
+		<div style="display: block;" id="uploadform-content">
+			<div>
+				<div id="for_1400" class="vidtest-uploadform">
+					<div class="form-head">
+						<h4><?php echo $this->__('Upload your YouTube URL')?></h4>
+					</div>
+					<fieldset>
+						<form id="vidtest-youtube-uploadform" name="vidtest-upload" method="post" action="<?php echo $this->getUrl('admintestimonials/index/vidtestupload/')?>" enctype="multipart/form-data">
+						<div>
+						<label for="title_field"><?php echo $this->__('Title')?><span class="required">*</span></label><br>
+						<input type="text" value="" style="width: 450px;" id="title_field" name="customer_title" class="input-text required-entry">
+						</div>
+
+						<div>
+						<label for="comment_field"><?php echo $this->__('Comment')?></label><br>
+						<textarea style="width: 450px;" rows="4" cols="53" id="comment_field" name="customer_comment" class="input-text"></textarea>
+						</div>
+
+						<div>
+						<label for="author_name_field"><?php echo $this->__('Author Name')?><span class="required">*</span></label><br>
+						<input type="text" value="" style="width: 450px;" id="author_name_field" name="customer_name" class="input-text required-entry">
+						</div>
+						<div>
+						<label for="author_email_field"><?php echo $this->__('Author Email')?><span class="required">*</span></label><br>
+						<input type="text" value="" style="width: 450px;" id="author_email_field" name="customer_email" class="input-text validate-email required-entry">
+						</div>
+
+						<div>     
+
+						<label for="video_link_field"><?php echo $this->__('YouTube URL')?><span class="required">*</span></label><br>
+						<input type="text" value="" style="width: 210px;" id="video_link_field" name="customer_video_url" class="input-text required-entry">
+							   
+						</div>
+						<?php $_product = $this->getProduct(); ?>
+						<input type="hidden" value="<?php echo $_product->getId() ?>" name="product_id">
+						<div class="button-set">
+						<button type="submit" class="form-button right button"><span><span><?php echo $this->__('Go')?></span></span></button>
+						</div>
+					</form>
+				</fieldset>
+			</div>
+			<script type="text/javascript">
+			//<![CDATA[
+
+			// Overrides standard submit
+			Validation.prototype.inheritedOnSubmit = Validation.prototype.onSubmit;
+
+			Validation.prototype.onSubmit = function(ev){
+
+			this.inheritedOnSubmit(ev);
+			}
+
+			var dataForm = new VarienForm('vidtest-youtube-uploadform');
+
+			var checkRadios = function(){
+			if ($('video_file_field_radio').checked){
+
+			$('video_file_block').show();
+			$('video_link_block').hide();
+
+			addClass($('video_file_field'), 'required-entry');
+			removeClass($('video_link_field'), 'required-entry');
+
+			} else if($('video_link_field_radio').checked) {
+
+			$('video_link_block').show();
+			$('video_file_block').hide();
+
+			addClass($('video_link_field'), 'required-entry');
+			removeClass($('video_file_field'), 'required-entry');
+			}
+			}
+			//]]>
+			</script>
+
+			</div>
+		</div>
+	</div>
+	<?php if((count($videoCollection)>0) OR (count($customerVideoCollection)>0)):?>
+		<ul id="mycarousel" class="jcarousel-skin-tango">
+		<?php 
+			foreach($videoCollection->getData() as $videos): ?>
+
+			<?php 
+
+
+				/*$key = 'v';
+
+				echo $current_url = preg_replace('/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $videos['video_url'] . '&');
+				*/
+
+				$posOfV = strpos($videos['video_url'],'?v=');
+				
+				if($posOfV === false) {
+
+					$explodeArr = explode("youtu.be/",$videos['video_url']);
+
+					$embedId = $explodeArr[1];		
+	
+				}else {
+					$explodeArr = explode("?v=",$videos['video_url']);
+
+					$pos = strpos($explodeArr,'&');
+
+					if($pos === false) {
+						$embedId = $explodeArr[1];
+					}
+					else {
+						$explodedAgain = explode("&",$explodeArr[1]);
+
+						$embedId = $explodedAgain[0];
+					}
+
+				}
+			?>
+
+			<?php 
+	
+				$json = json_decode(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$embedId."?v=2&alt=jsonc"));
+				//echo '<img src="' . $json->data->thumbnail->sqDefault . '">';
+				$content = file_get_contents("http://youtube.com/get_video_info?video_id=".$embedId);
+				parse_str($content, $ytarr);
+			?>
+			<li>
+		        <?php 
+					$title = $ytarr['title'];
+					//echo strlen($title);
+					$length = 40; //modify for desired width
+					$break=" "; $pad="...";
+					if (strlen($title) <= $length) {
+					$trunctitle = $title; //do nothing
+					} else {
+					$string = substr($title, 0, $length); 
+					if(false !== ($breakpoint = strrpos($string, $break)))
+					{ 
+						$string = substr($title, 0, $breakpoint); 
+					}
+						$trunctitle = $string . $pad;
+					//$title = substr($title,0,strpos($title,' ',$length))."...";
+					}
+					//$truncpname = myTruncate2($title, 40); 
+				?>
+				<a class="youtube" title="<?php echo $trunctitle ?>" href="http://www.youtube.com/embed/<?php echo $embedId ?>?rel=0&amp;wmode=transparent&amp;autoplay=1">
+					<img src="<?php echo $json->data->thumbnail->sqDefault ?>" width="100%" height="90" alt="" />
+				</a>
+
+				<div style="width:100%;font-weight:bold;color: #1E7EC8;"><?php echo $trunctitle; ?></div>
+			</li>
+		<?php endforeach; ?>
+	
+		<?php
+
+			foreach($customerVideoCollection->getData() as $custVideotest):
+
+				//$explodeArr = explode("?v=",$custVideotest['customer_video_url']);
+
+				$posOfV = strpos($custVideotest['customer_video_url'],'?v=');
+				
+				if($posOfV === false) {
+
+					$explodeArr = explode("youtu.be/",$custVideotest['customer_video_url']);
+
+					$embedId = $explodeArr[1];		
+	
+				}else {
+					$explodeArr = explode("?v=",$custVideotest['customer_video_url']);
+
+					$pos = strpos($explodeArr,'&');
+
+					if($pos === false) {
+						$embedId = $explodeArr[1];
+					}
+					else {
+						$explodedAgain = explode("&",$explodeArr[1]);
+
+						$embedId = $explodedAgain[0];
+					}
+
+				}
+
+				$json = json_decode(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$embedId."?v=2&alt=jsonc"));
+
+			?>
+			<li>
+				<a class="youtube" title="<?php echo $custVideotest['customer_title']; ?>" href="http://www.youtube.com/embed/<?php echo $embedId ?>?rel=0&amp;wmode=transparent&amp;autoplay=1">
+					<img src="<?php echo $json->data->thumbnail->sqDefault ?>" width="100%" height="90" alt="" />
+				</a>
+				<div style="float:left;width:100%;font-weight:bold;color: #1E7EC8;"><?php echo $custVideotest['customer_title']; ?></div>
+				<div style="float:left;width:100%;"><?php echo $custVideotest['customer_name']; ?></div>
+			</li>		
+
+
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+</div>

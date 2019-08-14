@@ -1,0 +1,44 @@
+<?php
+
+$id = Mage::getSingleton('adminhtml/session')->getCustomerVideoId();
+
+$model = Mage::getModel('admintestimonials/customertestimonials')->load($id);
+
+$videos = $model->getData();
+
+//$explodeArr = explode("?v=",$videos['customer_video_url']);
+
+$posOfV = strpos($videos['customer_video_url'],'?v=');
+
+if($posOfV === false) {
+
+	$explodeArr = explode("youtu.be/",$videos['customer_video_url']);
+
+	$embedId = $explodeArr[1];		
+
+}else {
+	$explodeArr = explode("?v=",$videos['customer_video_url']);
+
+	$pos = strpos($explodeArr,'&');
+
+	if($pos === false) {
+		$embedId = $explodeArr[1];
+	}
+	else {
+		$explodedAgain = explode("&",$explodeArr[1]);
+
+		$embedId = $explodedAgain[0];
+	}
+
+}
+?>
+<div id="player-content">
+	<object width="633px" height="400px">
+		<param value="http://www.youtube.com/v/<?php echo $embedId ?>?f=videos&amp;app=youtube_gdata" name="movie"> 
+		<param value="true" name="allowFullScreen"> 
+		<param value="always" name="allowScriptAccess"> 
+		<embed width="633px" height="400px" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" src="http://www.youtube.com/v/<?php echo $embedId ?>?f=videos&amp;app=youtube_gdata"> 
+	</object>
+</div>
+
+

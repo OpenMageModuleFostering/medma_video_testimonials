@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Medma_Video_Testimonials",
+    "type": "magento-module",
+    "license": "OSL-v3.0",
+    "homepage": "",
+    "description": "This module gives facility to upload multiple videos for product (per product from Customer end) and (per category from Admin end). You don't need to upload video. Just add video URL from youtube.",
+    "authors": [
+    {
+        "name": "Medma_Infomatix",
+        "email": "gaurav@medma.in"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
